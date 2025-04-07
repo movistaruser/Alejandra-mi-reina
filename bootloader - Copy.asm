@@ -6,25 +6,32 @@ bits 16
 start: 
     jmp main 
 
-main:  
+main: 
+
+    mov cx, 5
+
+bucle_inicio:
+
+    mov si, linea_nueva
+    call imprimir_cadena
+    loop bucle_inicio
 
     mov si, mensaje_bienvenida
     call imprimir_cadena 
     
     mov si, linea_nueva
-    call imprimir_cadena 
+    call imprimir_caracter
 
-    mov si, mensaje_prompt 
-    call imprimir_cadena 
-    
-    mov si, linea_nueva  
-    call imprimir_cadena 
+    mov cx, 20
 
-    call leer_caracter
-    mov al, [char] 
-    call imprimir_caracter 
+bucle_inicio2:
+
+    mov si, linea_nueva
+    call imprimir_cadena
+    loop bucle_inicio2
 
     jmp $
+
 
 
 imprimir_cadena:
@@ -46,18 +53,9 @@ imprimir_caracter:
     int 0x10 
     ret
 
-leer_caracter:
-
-    mov ah, 0
-    int 0x16 
-    mov [char], al 
-    ret
-
 ;Variables
 
-mensaje_bienvenida db "DarioAleproyecto", 0 
-mensaje_prompt db "DarioAleproyecto", 0
-mensaje_caracter_introducido db "Has presionado la tecla: ", 0
+mensaje_bienvenida db "Loading Alejandra mi reina...", 0 
 char db 0x00, 0 
 linea_nueva db 0x0D, 0x0A, 0 
 
