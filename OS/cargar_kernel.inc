@@ -14,5 +14,3 @@ mov ax,Dir_Kernel
     mov     dl,0            ;read from floppy disk A
     mov     bx,0		;read into 0 (in the segment)
     int     13h	;call BIOS disk read function
-
-    Kernel_check db "Kernel cargado correctamente", 0

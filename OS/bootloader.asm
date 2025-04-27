@@ -1,14 +1,10 @@
-
-
-
-
 org 0x7c00
 
 bits 16 
 
-Dir_Kernel	equ	0x1000		;kernel goes into memory at 0x10000
-Sectores_Max	equ	15		;kernel is at most 16 sectors (and probably less)
-Sector_Inicio	equ	3		;kernel lives at sector 3 (makes room for map & dir)
+Dir_Kernel	equ	0x1000
+Sectores_Max	equ	15		
+Sector_Inicio	equ	3		
 
 start: 
     jmp main 
@@ -53,8 +49,6 @@ bucle_inicio2:
 
 
 %include "variables.inc"
-
-
 
 
 times 510-($-$$) db 0 
