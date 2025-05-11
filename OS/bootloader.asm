@@ -2,10 +2,6 @@ org 0x7c00
 
 bits 16 
 
-Dir_Kernel	equ	0x1000
-Sectores_Max	equ	15		
-Sector_Inicio	equ	3		
-
 start: 
     jmp main 
 
@@ -30,11 +26,7 @@ bucle_inicio:
 
     mov si, linea_nueva
     call imprimir_cadena
-
-    mov si, Kernel_check
-    call imprimir_cadena
-
-    
+  
     mov cx, 22
 
 bucle_inicio2:
@@ -44,11 +36,10 @@ bucle_inicio2:
     loop bucle_inicio2
 
     call leer_caracter
-    %include "cargar_kernel.inc"
-	jmp Dir_Kernel:0
+    %include "libs/cargar_kernel.inc"
 
 
-%include "variables.inc"
+%include "libs/variables.inc"
 
 
 times 510-($-$$) db 0 
