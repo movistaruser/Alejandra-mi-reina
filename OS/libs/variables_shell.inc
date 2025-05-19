@@ -17,6 +17,35 @@ limpiar_pantalla:
     ret
 
 borrar_caracter:
+    ; Obtener posición del cursor
+    mov ah, 0x03
+    mov bh, 0x00
+    int 0x10       ; dh = fila, dl = columna
+
+    cmp dl, 7
+    jbe shell      ; Si está en columna 0, no borrar nada
+
+    dec dl         ; Mover el cursor a la izquierda
+
+    ; Calcular offset en memoria de video
+    mov ax, 0xB800
+    mov es, ax
+
+    movzx si, dh   ; fila → si
+    imul si, 80    ; si = fila * 80
+    movzx di, dl   ; columna → di
+    add si, di     ; si = fila * 80 + columna
+    shl si, 1      ; si = si * 2 (cada carácter ocupa 2 bytes)
+
+    ; Borrar el carácter (poner espacio con atributo blanco)
+    mov byte [es:si], ' '
+    mov byte [es:si + 1], 0x07
+
+    ; Mover el cursor a la izquierda
+    mov ah, 0x02
+    mov bh, 0x00
+    mov dh, dh
+    mov dl, dl
     cmp bx, 0               ; Si BX es 0, no hay nada que borrar
     je shell
 
