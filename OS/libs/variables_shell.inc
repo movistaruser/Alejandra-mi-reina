@@ -17,8 +17,8 @@ limpiar_pantalla:
     ret
 
 borrar_caracter:
-    cmp bx, 0               ; Si BX es 0, no hay nada que borrar
-    je shell
+    cmp bx, 1               ; Si BX es 0, no hay nada que borrar
+    je shell       ; Si no hay caracteres, salta
 
     ; Decrementar BX para movernos al carácter anterior en el buffer
     dec bx
@@ -36,10 +36,7 @@ borrar_caracter:
 
     ; Borra el carácter en el buffer (reemplaza por 0)
     mov byte [buffer_shell + bx], 0
-
-    ret
     
-
 
     jmp shell
 

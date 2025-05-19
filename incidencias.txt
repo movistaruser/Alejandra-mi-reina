@@ -1,0 +1,14 @@
+[ ]
+
+
+
+
+
+
+---largo plazo--------
+[ ] Mejor estructura del codigo
+[ ] Hacer intro
+[ ] Optimizar el enter / scroll enter
+
+--- Solucion cutre ---
+[ ] Error solo imprime dos variables
