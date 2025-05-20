@@ -18,3 +18,4 @@ shell:
     
 %include "libs/variables.inc"
 %include "libs/variables_shell.inc"
+%include "libs/comparaciones.inc"

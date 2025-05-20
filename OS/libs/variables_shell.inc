@@ -22,52 +22,40 @@ borrar_caracter:
     mov bh, 0x00
     int 0x10       ; dh = fila, dl = columna
 
-    cmp dl, 7
-    jbe shell      ; Si está en columna 0, no borrar nada
+    cmp dl, 7            ; Evitar borrar el prompt
+    jbe shell            ; Si está muy a la izquierda, no borrar
 
-    dec dl         ; Mover el cursor a la izquierda
+    dec dl               ; Retroceder una columna
 
-    ; Calcular offset en memoria de video
+    ; Calcular dirección de memoria de video
     mov ax, 0xB800
     mov es, ax
 
-    movzx si, dh   ; fila → si
-    imul si, 80    ; si = fila * 80
-    movzx di, dl   ; columna → di
-    add si, di     ; si = fila * 80 + columna
-    shl si, 1      ; si = si * 2 (cada carácter ocupa 2 bytes)
+    movzx si, dh         ; Fila
+    imul si, 80          ; si = fila * 80
+    movzx di, dl         ; Columna
+    add si, di
+    shl si, 1            ; Cada carácter ocupa 2 bytes
 
-    ; Borrar el carácter (poner espacio con atributo blanco)
+    ; Borrar carácter en pantalla
     mov byte [es:si], ' '
     mov byte [es:si + 1], 0x07
 
-    ; Mover el cursor a la izquierda
+    ; Mover cursor hacia atrás
     mov ah, 0x02
     mov bh, 0x00
     mov dh, dh
     mov dl, dl
-    cmp bx, 0               ; Si BX es 0, no hay nada que borrar
+    int 0x10
+
+    ; Borrar del buffer
+    cmp bx, 0
     je shell
-
-    ; Decrementar BX para movernos al carácter anterior en el buffer
     dec bx
-
-    ; Borra el carácter de la pantalla (retrocede, imprime espacio, retrocede nuevamente)
-    mov ah, 0x0E
-    mov al, 0x08            ; Retroceso (carácter)
-    int 0x10
-
-    mov al, ' '             ; Espacio en blanco (para borrar el carácter)
-    int 0x10
-
-    mov al, 0x08            ; Retroceso nuevamente
-    int 0x10
-
-    ; Borra el carácter en el buffer (reemplaza por 0)
     mov byte [buffer_shell + bx], 0
-    
 
     jmp shell
+
 
 enter_shell:
     mov ah, 0x03
@@ -84,11 +72,7 @@ enter_shell:
     mov bh, 0x00
     int 0x10
 
-    mov si, mensaje_error
-    call imprimir_cadena
-
-    mov si, buffer_shell
-    call imprimir_cadena
+    call comparar_comando
 
     mov ah, 0x03
     mov bh, 0x00
@@ -129,12 +113,7 @@ scroll_shell:
     mov bh, 0x00
     int 0x10
 
-    mov si, mensaje_error
-    call imprimir_cadena
-
-    mov si, buffer_shell
-    call imprimir_cadena
-
+    call comparar_comando
 
     mov ah, 0x06   ; Función de scroll
     mov al, 1      ; Scroll 1 línea
@@ -166,18 +145,17 @@ section .bss:
 leer_comando:
 
     mov ah, 0
-    int 0x16         
-
-    ; Guarda el carácter en el buffer
-    mov [buffer_shell + bx], al
-    inc bx
-
-    
+    int 0x16     
+   
     cmp al, 0x08
     je borrar_caracter
 
     cmp al, 0x0D
     je enter_shell       
+    
+    ; Guarda el carácter en el buffer
+    mov [buffer_shell + bx], al
+    inc bx
 
     ; Imprime el carácter
     mov ah, 0x0E

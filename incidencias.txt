@@ -1,5 +1,5 @@
-[ ]
-
+[x] no se borra del buffer
+[ ] no se borra el buffer despues de que te compare y sea igual.
 
 
 
@@ -11,4 +11,4 @@
 [ ] Optimizar el enter / scroll enter
 
 --- Solucion cutre ---
-[ ] Error solo imprime dos variables
+[ ] Error solo imprime dos variable
