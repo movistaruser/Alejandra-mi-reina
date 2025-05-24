@@ -9,6 +9,6 @@
 [ ] Mejor estructura del codigo
 [ ] Hacer intro
 [ ] Optimizar el enter / scroll enter
-
+[ ] Asignar direcciones de memoria fijas a cada programa
 --- Solucion cutre ---
 [ ] Error solo imprime dos variable

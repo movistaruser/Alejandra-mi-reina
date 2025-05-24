@@ -63,7 +63,7 @@ enter_shell:
     int 0x10
 
     inc dh
-    mov dl, 0
+    mov dl, 7
 
     cmp dh, 24
     ja scroll_shell
@@ -71,8 +71,6 @@ enter_shell:
     mov ah, 0x02
     mov bh, 0x00
     int 0x10
-
-    call comparar_comando
 
     mov ah, 0x03
     mov bh, 0x00
@@ -83,6 +81,9 @@ enter_shell:
 
     cmp dh, 24
     ja scroll_shell
+
+    call comparar_comando
+
 
     mov ah, 0x02
     mov bh, 0x00
@@ -99,12 +100,17 @@ enter_shell:
 
 scroll_shell:
 
+
     mov ah, 0x06   ; Función de scroll
     mov al, 1      ; Scroll 1 línea
     mov bh, 0x07   ; Atributo (blanco sobre negro)
     mov cx, 0x0000 ; Esquina superior izquierda
     mov dx, 0x184F ; Esquina inferior derecha (fila 24, col 79)
     int 0x10
+
+    call comparar_comando
+    cmp al, 1
+    je segundo_salto
 
     mov dh, 24     ; Coloca el cursor en la última línea después del scroll
     mov dl, 0
@@ -113,8 +119,6 @@ scroll_shell:
     mov bh, 0x00
     int 0x10
 
-    call comparar_comando
-
     mov ah, 0x06   ; Función de scroll
     mov al, 1      ; Scroll 1 línea
     mov bh, 0x07   ; Atributo (blanco sobre negro)
@@ -124,6 +128,10 @@ scroll_shell:
 
     mov dh, 24     ; Coloca el cursor en la última línea después del scroll
     mov dl, 0
+    
+    jmp segundo_salto
+
+segundo_salto:
 
     mov ah, 0x02
     mov bh, 0x00
@@ -137,7 +145,6 @@ scroll_shell:
     call imprimir_cadena
 
     jmp shell
-
 
 section .bss:
     buffer_shell resb 128

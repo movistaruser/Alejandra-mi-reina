@@ -32,25 +32,20 @@ comparar_cadena:
 clear:
 
 section .text
-    ; Cargar el programa desde el sector 2 a la dirección 0x2000
-    mov ah, 0x02            ; Función para leer sectores
-    mov al, 4               ; Leer 4 sectores (puedes ajustar la cantidad de sectores)
-    mov ch, 0               ; Cilindro 0
-    mov cl, 2               ; Sector 2
-    mov dh, 0               ; Cabeza 0
-    mov dl, 0x80            ; Unidad (disco duro)
-    mov bx, 0x2000          ; Dirección de carga en 0x2000
-    int 0x13                ; Llamada a BIOS para leer los sectores
+mov ax, 0x2000
+mov es, ax
+xor bx, bx
 
-    jc error_comando        ; Si hay un error, saltar a la rutina de error
+mov ah, 0x02
+mov al, 4
+mov ch, 0
+mov cl, 2
+mov dh, 0
+mov dl, 0x80
+int 0x13
+jc error_comando
 
-    ; Mostrar mensaje en caso de éxito, para asegurarnos de que leemos correctamente
-    mov ah, 0x0E            ; Función de escritura de caracteres
-    mov al, 'L'             
-    int 0x10                ; Mostrar "L" en la pantalla
-
-    ; Realizar un salto largo (far jump) a 0x2000:0x0000
-    jmp 0x2000:0x0000       ; Saltar a la dirección 0x2000 donde cargamos el código
+jmp 0x2000:0x0000
 
 error_comando:
 
@@ -65,3 +60,4 @@ error_comando:
 
 
 cadena_clear db "clear", 0
+cadena_hola db "hola", 0
