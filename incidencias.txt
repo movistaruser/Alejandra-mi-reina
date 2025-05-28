@@ -1,6 +1,6 @@
 [x] no se borra del buffer
 [ ] no se borra el buffer despues de que te compare y sea igual.
-
+[ ] despues de clear no se puede hacer enter sin escribir
 
 
 

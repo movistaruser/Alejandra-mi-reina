@@ -26,5 +26,7 @@ start:
 
     mov al, 1   
 
+
     hlt                 
-    ret                    
+    ret
+

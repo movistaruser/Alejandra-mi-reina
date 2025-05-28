@@ -26,7 +26,7 @@ leer_caracter:
 
 ;Variables
 
-mensaje_bienvenida db "Loading Alejandra mi reina...", 0 
+mensaje_bienvenida db "DariOS", 0 
 char db 0x00, 0 
 linea_nueva db 0x0D, 0x0A, 0
 mensaje_kernel db "Pulsa cualquier tecla para cargar...", 0
