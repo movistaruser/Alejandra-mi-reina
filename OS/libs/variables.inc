@@ -23,6 +23,12 @@ leer_caracter:
     mov [char], al 
     ret
 
+ConvertToAscii:
+    add al, '0'            ; Convertir el valor numérico a su representación en ASCII
+    call imprimir_caracter  ; Llamar a una función para mostrar el carácter en pantalla
+    ret
+
+
 
 ;Variables
 
@@ -32,3 +38,5 @@ linea_nueva db 0x0D, 0x0A, 0
 mensaje_kernel db "Pulsa cualquier tecla para cargar...", 0
 Kernel_check db "Kernel cargado correctamente", 0
 
+cur_fila db 0
+cur_columna db 0

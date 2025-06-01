@@ -4,6 +4,8 @@ bits 16
 
 start:
 
+call limpiar_buffer
+
 call limpiar_pantalla
 mov si, Mensaje_shell
 call imprimir_cadena
@@ -12,10 +14,12 @@ jmp shell
 
 shell:
 
+        call limpiar_buffer
         call leer_comando
-
+        call limpiar_buffer
         jmp shell
     
 %include "libs/variables.inc"
 %include "libs/variables_shell.inc"
 %include "libs/comparaciones.inc"
+%include "libs/comandos.inc"

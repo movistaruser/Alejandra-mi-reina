@@ -2,7 +2,7 @@ limpiar_pantalla:
 
     mov ah, 0x06        ; función de scroll up
     mov al, 0           ; 0 = limpiar toda la pantalla
-    mov bh, 0x07     ; atributo: fondo negro, texto gris claro (07h)
+    mov bh, 0x7
     mov cx, 0x0000      ; esquina superior izquierda (fila 0, columna 0)
     mov dx, 0x184F      ; esquina inferior derecha (fila 24, columna 79)
     int 0x10

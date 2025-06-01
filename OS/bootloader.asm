@@ -58,7 +58,7 @@ main:
     %include "libs/cargar_kernel.inc"
 
 
-%include "libs/variables.inc"
+    %include "libs/variables.inc"
 
 
 times 510-($-$$) db 0 

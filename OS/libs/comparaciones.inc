@@ -10,6 +10,7 @@ comparar_comando:
 comparar_comando_codigo:
     mov si, buffer_shell
     mov di, cadena_clear
+
     call comparar_cadena
 
     cmp al, 1
@@ -23,6 +24,56 @@ comparar_comando_codigo:
     cmp al, 1
     je hola
 
+    mov si, buffer_shell
+    mov di, cadena_green
+    
+    call comparar_cadena
+
+    cmp al, 1
+    je green
+
+    
+    mov si, buffer_shell
+    mov di, cadena_blue
+    
+    call comparar_cadena
+
+    cmp al, 1
+    je blue
+
+    
+    mov si, buffer_shell
+    mov di, cadena_red
+    
+    call comparar_cadena
+
+    cmp al, 1
+    je red
+
+    
+    mov si, buffer_shell
+    mov di, cadena_color
+    
+    call comparar_cadena
+
+    cmp al, 1
+    je color
+    
+    mov si, buffer_shell
+    mov di, cadena_time
+    
+    call comparar_cadena
+
+    cmp al, 1
+    je time
+        
+    mov si, buffer_shell
+    mov di, cadena_date
+    
+    call comparar_cadena
+
+    cmp al, 1
+    je date
     
     jmp error_comando
 
@@ -43,6 +94,8 @@ comparar_cadena:
     jmp comparar_cadena
 
 es_igual:
+
+call limpiar_buffer
     mov al, 1
     ret
 
@@ -50,32 +103,6 @@ no_es_igual:
     mov al, 0
     ret
 
-clear:
-
-section .text
-mov ax, 0x2000
-mov es, ax
-xor bx, bx
-
-mov ah, 0x02
-mov al, 4
-mov ch, 0
-mov cl, 2
-mov dh, 0
-mov dl, 0x80
-int 0x13
-
-
-jmp 0x2000:0x0000
-
-hola:
-
-section.text
-
-    mov si, cadena_hola
-    call imprimir_cadena
-
-    ret
 
 error_comando:
 
@@ -89,5 +116,6 @@ error_comando:
     ret
 
 
-cadena_clear db "clear", 0
-cadena_hola db "hola", 0
+
+
+
