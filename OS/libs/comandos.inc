@@ -170,30 +170,45 @@ date:
     call imprimir_caracter
 
     ; Imprimir año
-    mov al, ch           ; Decenas del año (por ejemplo, 2023 -> 2)
+    mov al, ch          
     shr al, 4
     add al, 30h
     call imprimir_caracter
 
-    mov al, ch           ; Unidades del año (por ejemplo, 2023 -> 3)
+    mov al, ch           
     and al, 0x0F
     add al, 30h
     call imprimir_caracter
 
     ret
 
+age:
+
+
+    mov si, age_int
+    call imprimir_cadena
+
+    mov ah, 0
+    int 0x16 
+    mov [age_var1], al
+    
+    mov al, [age_var1]
+    call imprimir_caracter
+
+    mov si, age_out
+    call imprimir_cadena
+
+    mov al, [age_var1]
+    call imprimir_caracter
+
+    ret
+
+shutdown:
+
+    mov ax, 0x5307    ; Función APM para apagar el sistema
+    int 0x15          ; Llamar a la interrupción del BIOS para apagar el sistema
+
+    ret
 
 
 
-
-cadena_clear db "clear", 0
-cadena_hola db "hola", 0
-cadena_green db "color green", 0
-cadena_color db "color", 0
-cadena_blue db "color blue", 0
-cadena_red db "color red", 0
-cadena_time db "time", 0
-cadena_date db "date", 0
-
-
-color_error db "Sintaxis incorrecta, prueba a poner algun color", 0

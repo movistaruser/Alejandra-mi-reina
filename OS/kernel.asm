@@ -20,6 +20,7 @@ shell:
         jmp shell
     
 %include "libs/variables.inc"
-%include "libs/variables_shell.inc"
-%include "libs/comparaciones.inc"
+%include "libs/funciones.inc"
 %include "libs/comandos.inc"
+%include "libs/funciones_globales.inc"
+
