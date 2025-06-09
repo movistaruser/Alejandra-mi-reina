@@ -4,7 +4,7 @@
 [ ] no se guarda el color
 [ ] scroll roto
 [ ] Borrar roto
-
+[ ] Archivo C random
 
 
 ---largo plazo--------

@@ -15,9 +15,10 @@ Fin_de_cadena:
 
 
 imprimir_caracter:
-
+    push ax
     mov ah, 0x0E  
-    int 0x10 
+    int 0x10
+    pop ax 
     ret
 leer_caracter: 
 

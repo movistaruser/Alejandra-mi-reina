@@ -25,16 +25,20 @@ cadena_green db "color green", 0
 cadena_color db "color", 0
 cadena_blue db "color blue", 0
 cadena_red db "color red", 0
+cadena_reset db "color reset", 0
 cadena_time db "time", 0
 cadena_date db "date", 0
 cadena_age db "age", 0
 cadena_shutdown db "shutdown", 0
+cadena_random db "random", 0
 
 ; color 
 color_error db "Sintaxis incorrecta, prueba a poner algun color", 0
+color_actual db 0x07
 
 ;age
-age_int db "Introduce tu edad: ", 0
+age_int db "Introduce tu edad (AA): ", 0
 age_out db "      Tu edad es: "
 age_var1 db 0x00, 0
 age_var2 db 0x00, 0
+

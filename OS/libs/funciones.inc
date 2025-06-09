@@ -18,7 +18,7 @@ comparar_comando_codigo:
 
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je clear
 
     mov si, buffer_shell
@@ -26,7 +26,7 @@ comparar_comando_codigo:
 
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je hola
 
     mov si, buffer_shell
@@ -34,7 +34,7 @@ comparar_comando_codigo:
     
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je green
 
     
@@ -43,7 +43,7 @@ comparar_comando_codigo:
     
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je blue
 
     
@@ -52,7 +52,7 @@ comparar_comando_codigo:
     
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je red
 
     
@@ -61,7 +61,7 @@ comparar_comando_codigo:
     
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je color
     
     mov si, buffer_shell
@@ -69,7 +69,7 @@ comparar_comando_codigo:
     
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je time
         
     mov si, buffer_shell
@@ -77,7 +77,7 @@ comparar_comando_codigo:
     
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je date
     
     mov si, buffer_shell
@@ -85,7 +85,7 @@ comparar_comando_codigo:
     
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je age
 
     mov si, buffer_shell
@@ -93,8 +93,25 @@ comparar_comando_codigo:
     
     call comparar_cadena
 
-    cmp al, 1
+    cmp bl, 1
     je shutdown
+
+    mov si, buffer_shell
+    mov di, cadena_random
+    
+    call comparar_cadena
+
+    cmp bl, 1
+    je random
+
+    mov si, buffer_shell
+    mov di, cadena_reset
+    
+    call comparar_cadena
+
+    cmp bl, 1
+    je reset
+    
 
     jmp error_comando
 
@@ -115,8 +132,15 @@ comparar_cadena:
 
 es_igual:
 
-call limpiar_buffer
-    mov al, 1
+    mov di, buffer_shell
+    mov cx, 128
+    mov al, 0
+    rep stosb
+
+    ; Reiniciar índice
+    xor di, di
+
+    mov bl, 1
     ret
 
 no_es_igual:
@@ -143,7 +167,7 @@ limpiar_pantalla:
 
     mov ah, 0x06        ; función de scroll up
     mov al, 0           ; 0 = limpiar toda la pantalla
-    mov bh, 0x7
+    mov bh, [color_actual] 
     mov cx, 0x0000      ; esquina superior izquierda (fila 0, columna 0)
     mov dx, 0x184F      ; esquina inferior derecha (fila 24, columna 79)
     int 0x10
@@ -180,7 +204,8 @@ borrar_caracter:
 
     ; Borrar carácter en pantalla
     mov byte [es:si], ' '
-    mov byte [es:si + 1], 0x07
+    mov al, [color_actual]
+    mov byte [es:si + 1], al
 
     ; Mover cursor hacia atrás
     mov ah, 0x02
@@ -199,6 +224,8 @@ borrar_caracter:
 
 
 enter_shell:
+
+
     mov ah, 0x03
     mov bh, 0x00
     int 0x10
@@ -237,6 +264,7 @@ enter_shell:
     mov si, Mensaje_shell
     call imprimir_cadena  
 
+
     jmp shell
 
 scroll_shell:
@@ -244,7 +272,7 @@ scroll_shell:
 
     mov ah, 0x06   ; Función de scroll
     mov al, 1      ; Scroll 1 línea
-    mov bh, 0x07   ; Atributo (blanco sobre negro)
+    mov bh, [color_actual]   ; Atributo (blanco sobre negro)
     mov cx, 0x0000 ; Esquina superior izquierda
     mov dx, 0x184F ; Esquina inferior derecha (fila 24, col 79)
     int 0x10
@@ -262,7 +290,7 @@ scroll_shell:
 
     mov ah, 0x06   ; Función de scroll
     mov al, 1      ; Scroll 1 línea
-    mov bh, 0x07   ; Atributo (blanco sobre negro)
+    mov bh, [color_actual]   ; Atributo (blanco sobre negro)
     mov cx, 0x0000 ; Esquina superior izquierda
     mov dx, 0x184F ; Esquina inferior derecha (fila 24, col 79)
     int 0x10
@@ -320,3 +348,9 @@ limpiar_buffer:
         ret
 
 ; ------------------------------------------------------
+
+rand16_code:
+
+;incbin "random.bin"
+
+ret
