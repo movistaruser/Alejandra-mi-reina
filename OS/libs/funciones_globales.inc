@@ -20,6 +20,7 @@ imprimir_caracter:
     int 0x10
     pop ax 
     ret
+    
 leer_caracter: 
 
     mov ah, 0

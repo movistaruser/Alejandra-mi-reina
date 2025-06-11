@@ -1,5 +1,3 @@
-
-
 section .data
 seed dd 0x12345678  ; Variable global seed de 32 bits
 buffer_numero resb 6
