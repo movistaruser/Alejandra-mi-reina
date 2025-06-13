@@ -42,3 +42,5 @@ age_out db "      Tu edad es: "
 age_var1 db 0x00, 0
 age_var2 db 0x00, 0
 
+;random 
+seed dd 0x12345678

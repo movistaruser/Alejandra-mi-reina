@@ -4,6 +4,12 @@ bits 16
 
 start:
 
+mov ah, 0
+int 0x1A
+
+mov [seed], ax       ; parte baja de la semilla
+mov [seed + 2], dx   ; parte alta de la semilla
+
 call limpiar_pantalla
 
 xor si, si
